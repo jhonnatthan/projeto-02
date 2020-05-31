@@ -1,1 +1,28 @@
-<p>cotacao works!</p>
+<div class="row justify-content-center">
+  <div class="col-12 col-md-10 col-lg-7 order-2 order-lg-1">
+    <p class="h1 mb-4 text-primary">Cotação atual</p>
+    <p class="h6 mb-3 m-0 text-white">O valor das criptomoedas, assim como o de moedas tradicionais, passa por variações
+      com o tempo. Assim, o valor de
+      compra de suas criptomoedas pode não ser o mesmo no momento em que você for vendê-las ou usá-las para comprar um
+      produto ou serviço na Internet. Você pode acompanhar as cotações pelo próprio Mercado Bitcoin.</p>
+    <hr />
+    <p class="h6 mb-3 m-0 text-white">Preço da unidade de Bitcoin</p>
+    <p class="h1 mb-3 m-0 text-primary">{{bitcoinService.currentPrice?.bpi.BRL.rate_float | currency: 'BRL'}}</p>
+    <p class="h6 mb-3 m-0 text-white"><span class="text-primary">65,18</span> bitcoins negociados nas últimas 24 horas
+    </p>
+    <div class="progress mb-3 col-12 col-lg-7 p-0">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75"
+        aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+    </div>
+    <p class="h5 mb-3 m-0 text-white"><span class="text-primary">R$50,00</span> compram {{timerService.counter}}<span class="text-primary">0,001
+        Bitcoins</span></p>
+
+    <input type="number" #valor class="form-control mb-3 col-12 col-lg-6" placeholder="Digite o valor" />
+    <button class="btn btn-primary col-12 col-lg-6">Adicionar ao carrinho</button>
+  </div>
+
+  <div class="col-12 col-md-7 col-lg-5 mb-5 mb-lg-0 order-1 order-lg-1">
+    <lottie-player class="col-12 p-0" src="https://assets7.lottiefiles.com/packages/lf20_ihxIYc.json"
+      background="transparent" speed="1" loop autoplay></lottie-player>
+  </div>
+</div>
