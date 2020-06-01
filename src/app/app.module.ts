@@ -14,6 +14,7 @@ import { CotacaoComponent } from './cotacao/cotacao.component';
 import { HistoricoComponent } from './historico/historico.component';
 import { HomeComponent } from './home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CurrencyMaskModule } from 'ng2-currency-mask';
 
 registerLocaleData(pt);
 
@@ -34,6 +35,7 @@ registerLocaleData(pt);
     HttpClientModule,
     BrowserAnimationsModule,
     NgbModule,
+    CurrencyMaskModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

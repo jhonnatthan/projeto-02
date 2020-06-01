@@ -1,6 +1,6 @@
-import { Injectable, OnInit, OnChanges } from '@angular/core';
+import { StorageService } from './../storage/storage.service';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { TimerService } from '../timer/timer.service';
 
 type ITime = {
   updated: string;
@@ -18,11 +18,11 @@ type IBPIContent = {
 
 type IBPI = { [Key in Keys]: IBPIContent };
 
-interface Response {
+export type BitcoinResponse = {
   time: ITime;
   disclaimer: string;
   bpi: IBPI;
-}
+};
 
 type PriceUpdate = {
   timestamp: Date;
@@ -33,20 +33,27 @@ type PriceUpdate = {
 @Injectable({
   providedIn: 'root',
 })
-export class BitcoinService implements OnInit, OnChanges {
-  currentPrice: Response;
+export class BitcoinService {
+  currentPrice: BitcoinResponse;
   lastUpdate: Date;
 
   updateList: Array<PriceUpdate> = [];
 
-  loading: boolean = false;
+  loading = false;
 
-  constructor(private http: HttpClient, private timerService: TimerService) {}
+  constructor(
+    private http: HttpClient,
+    private storageService: StorageService
+  ) {
+    this.updateList = this.storageService.get('@bitcoin:list') ?? [];
+  }
 
   update(): void {
     this.loading = true;
     this.http
-      .get<Response>('https://api.coindesk.com/v1/bpi/currentprice/BRL.json')
+      .get<BitcoinResponse>(
+        'https://api.coindesk.com/v1/bpi/currentprice/BRL.json'
+      )
       .subscribe((data) => {
         this.lastUpdate = new Date();
         this.currentPrice = data;
@@ -55,16 +62,13 @@ export class BitcoinService implements OnInit, OnChanges {
           USD: this.currentPrice.bpi.USD.rate_float,
           BRL: this.currentPrice.bpi.BRL.rate_float,
         });
+
+        this.storageService.set('@bitcoin:list', this.updateList);
         this.loading = false;
       });
   }
 
-  ngOnInit(): void {
-    this.timerService.start(1000);
-    this.update();
-  }
-
-  ngOnChanges(): void {
-
+  getBrlRateFloat() {
+    return this.currentPrice.bpi.BRL.rate_float;
   }
 }
