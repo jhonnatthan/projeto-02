@@ -25,4 +25,12 @@ export class StorageService {
       console.error('Falha ao salvar no storage');
     }
   }
+
+  remove(key: string): void {
+    try {
+      localStorage.removeItem(key);
+    } catch (error) {
+      console.error('Falha ao remover do storage');
+    }
+  }
 }

@@ -30,6 +30,11 @@ type PriceUpdate = {
   BRL: number;
 };
 
+type UpdateCallback = {
+  currentPrice: BitcoinResponse;
+  lastUpdate: Date;
+  updateList: Array<PriceUpdate>;
+};
 @Injectable({
   providedIn: 'root',
 })
@@ -43,12 +48,12 @@ export class BitcoinService {
 
   constructor(
     private http: HttpClient,
-    private storageService: StorageService
+    private storageService: StorageService,
   ) {
     this.updateList = this.storageService.get('@bitcoin:list') ?? [];
   }
 
-  update(): void {
+  public update(callback?: (props: UpdateCallback) => void): void {
     this.loading = true;
     this.http
       .get<BitcoinResponse>(
@@ -57,7 +62,7 @@ export class BitcoinService {
       .subscribe((data) => {
         this.lastUpdate = new Date();
         this.currentPrice = data;
-        this.updateList.push({
+        this.updateList.unshift({
           timestamp: this.lastUpdate,
           USD: this.currentPrice.bpi.USD.rate_float,
           BRL: this.currentPrice.bpi.BRL.rate_float,
@@ -65,10 +70,16 @@ export class BitcoinService {
 
         this.storageService.set('@bitcoin:list', this.updateList);
         this.loading = false;
+
+        callback({
+          currentPrice: this.currentPrice,
+          updateList: this.updateList,
+          lastUpdate: this.lastUpdate,
+        });
       });
   }
 
-  getBrlRateFloat() {
-    return this.currentPrice.bpi.BRL.rate_float;
+  public getRateFloat(location: Keys = 'BRL') {
+    return this.currentPrice.bpi[location].rate_float;
   }
 }

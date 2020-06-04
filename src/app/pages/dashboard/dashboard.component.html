@@ -1,0 +1,207 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+
+      <div class="row">
+        <div class="col-xl-3 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Valor bitcoin (BRL)</h5>
+                  <span
+                    class="h2 font-weight-bold mb-0">{{bitcoinService.loading ? 'Carregando valor atualizado...' : bitcoinService.getRateFloat() | currency: 'BRL'}}</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                    <i class="fab fa-bitcoin"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-muted text-sm">
+                <span [ngClass]="{'text-danger': currencyNegative,'text-success': !currencyNegative, 'mr-2':true}">
+                  <i [ngClass]="{ 'fas': true, 'fa-arrow-down': currencyNegative,'fa-arrow-up': !currencyNegative}"></i>
+                  {{currencyPercent | percent}}
+                </span>
+                <span class="text-nowrap">Que a última cotação</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Valor bitcoin (USD)</h5>
+                  <span
+                    class="h2 font-weight-bold mb-0">{{bitcoinService.loading ? 'Carregando valor atualizado...' : bitcoinService.getRateFloat('USD') | currency: 'USD'}}</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                    <i class="fab fa-bitcoin"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-muted text-sm">
+                <span [ngClass]="{'text-danger': currencyNegative,'text-success': !currencyNegative, 'mr-2':true}">
+                  <i [ngClass]="{ 'fas': true, 'fa-arrow-down': currencyNegative,'fa-arrow-up': !currencyNegative}"></i>
+                  {{currencyPercent | percent}}
+                </span>
+                <span class="text-nowrap">Que a última cotação</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Saldo em Bitcoin</h5>
+                  <span class="h2 font-weight-bold mb-0">{{authService.user.bitcoinBalance}}</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                    <i class="fas fa-dollar-sign"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-muted text-sm">
+                <span [ngClass]="{'text-danger': btcNegative,'text-success': !btcNegative, 'mr-2':true}">
+                  <i [ngClass]="{ 'fas': true, 'fa-arrow-down': btcNegative,'fa-arrow-up': !btcNegative}"></i>
+                  {{btcPercent | percent}}</span>
+                <span class="text-nowrap">Desde a última compra / venda</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Saldo em BRL</h5>
+                  <span class="h2 font-weight-bold mb-0">{{ authService.user.moneyBalance | currency: 'BRL'}}</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                    <i class="fas fa-dollar-sign"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-muted text-sm">
+                <span [ngClass]="{'text-danger': moneyNegative,'text-success': !moneyNegative, 'mr-2':true}">
+                  <i [ngClass]="{ 'fas': true, 'fa-arrow-down': moneyNegative,'fa-arrow-up': !moneyNegative}"></i>
+                  {{moneyPercent | percent}}</span>
+                <span class="text-nowrap">Desde a última compra / venda</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+
+    <div class="col-12 mb-5">
+      <div class="card bg-gradient-default shadow">
+        <div class="card-header bg-transparent">
+          <div class="row align-items-center">
+            <div class="col">
+              <h6 class="text-uppercase text-light ls-1 mb-1">Cotação</h6>
+              <h2 class="text-white mb-0">Preço da bitcoin</h2>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- Chart -->
+          <div class="chart">
+            <!-- Chart wrapper -->
+            <canvas id="chart-sales" class="chart-canvas"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 mb-5">
+      <div class="card shadow">
+        <div class="card-header bg-transparent">
+          <div class="row align-items-center">
+            <div class="col">
+              <h6 class="text-uppercase text-muted ls-1 mb-1">Histórico</h6>
+              <h2 class="mb-0">Seu histórico de balanço (BTC)</h2>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- Chart -->
+          <div class="chart">
+            <canvas id="money-balance-chart" class="chart-canvas"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 mb-5">
+      <div class="card shadow">
+        <div class="card-header bg-transparent">
+          <div class="row align-items-center">
+            <div class="col">
+              <h6 class="text-uppercase text-muted ls-1 mb-1">Histórico</h6>
+              <h2 class="mb-0">Seu histórico de compra (BTC)</h2>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- Chart -->
+          <div class="chart">
+            <canvas id="money-history-chart" class="chart-canvas"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 mb-5">
+      <div class="card shadow">
+        <div class="card-header bg-transparent">
+          <div class="row align-items-center">
+            <div class="col">
+              <h6 class="text-uppercase text-muted ls-1 mb-1">Histórico</h6>
+              <h2 class="mb-0">Seu histórico de balanço (BRL)</h2>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- Chart -->
+          <div class="chart">
+            <canvas id="bitcoin-balance-chart" class="chart-canvas"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 mb-5">
+      <div class="card shadow">
+        <div class="card-header bg-transparent">
+          <div class="row align-items-center">
+            <div class="col">
+              <h6 class="text-uppercase text-muted ls-1 mb-1">Histórico</h6>
+              <h2 class="mb-0">Seu histórico de compra (BRL)</h2>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- Chart -->
+          <div class="chart">
+            <canvas id="bitcoin-history-chart" class="chart-canvas"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
