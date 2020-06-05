@@ -14,8 +14,6 @@ export class RouteAuthService implements CanActivate {
 
   canActivate(): boolean {
     const isAuth = this.isAuthenticated();
-
-    console.log('Auth', isAuth);
     if (!isAuth) {
       this.router.navigate(['/login']);
     }

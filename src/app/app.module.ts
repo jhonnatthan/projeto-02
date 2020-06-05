@@ -9,12 +9,11 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgxCurrencyModule } from "ngx-currency";
+import { NgxCurrencyModule } from 'ngx-currency';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
-import { ShopComponent } from './pages/shop/shop.component';
 
 @NgModule({
   imports: [
@@ -26,9 +25,9 @@ import { ShopComponent } from './pages/shop/shop.component';
     RouterModule,
     AppRoutingModule,
     ToastrModule.forRoot(),
-    NgxCurrencyModule
+    NgxCurrencyModule,
   ],
-  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent, ShopComponent],
+  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent],
   providers: [ToastrService],
   bootstrap: [AppComponent],
 })

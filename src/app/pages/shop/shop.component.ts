@@ -47,15 +47,52 @@ export class ShopComponent implements OnInit {
     let inputValue = 0;
 
     if (this.bitcoinService.currentPrice) {
-      console.log(this.btc)
       if (this.btc !== null) {
         inputValue = parseFloat(this.btc);
-
-        console.log(inputValue);
 
         moneyValue = (inputValue * this.bitcoinService.getRateFloat()) / 1;
       }
     }
     return moneyValue;
+  }
+
+  public handleBuy() {
+    let inputValue = 0;
+    if (this.bitcoinService.currentPrice) {
+      if (this.money !== null) {
+        inputValue = parseFloat(this.money);
+        if (inputValue >= 100) {
+          if (this.authService.buyBtc(inputValue)) {
+            this.toastr.success('Compra de bitcoin realizada com sucesso!');
+          } else {
+            this.toastr.error('Falha ao comprar BTC');
+          }
+        } else {
+          this.toastr.error('Valor abaixo de R$ 100,00');
+        }
+      } else {
+        this.toastr.error('Campo vazio');
+      }
+    } else {
+      this.toastr.error('Nenhuma cotação encontrada!');
+    }
+  }
+
+  public handleSell() {
+    let inputValue = 0;
+    if (this.bitcoinService.currentPrice) {
+      if (this.btc !== null) {
+        inputValue = parseFloat(this.btc);
+        if (this.authService.sellBtc(inputValue)) {
+          this.toastr.success('Venda de bitcoin realizada com sucesso!');
+        } else {
+          this.toastr.error('Falha ao comprar BTC');
+        }
+      } else {
+        this.toastr.error('Campo vazio');
+      }
+    } else {
+      this.toastr.error('Nenhuma cotação encontrada!');
+    }
   }
 }

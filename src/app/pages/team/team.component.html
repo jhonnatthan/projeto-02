@@ -1,0 +1,66 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+        <div class="col-auto">
+          <img [src]="reposLoading ? '' : userData.avatar_url" class="rounded-circle" style="max-width: 200px;">
+        </div>
+        <div class="col">
+          <h1 class="display-2 text-white">{{reposLoading ? 'Carregando dados...' : userData.login}}</h1>
+          <p class="text-white mt-0">{{reposLoading ? 'Carregando dados...' : userData.bio}}
+          </p>
+          <a class="btn btn-info text-white" [href]="reposLoading ? '#' : userData.html_url" target="_blank">Acessar
+            perfil</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h3 class="mb-0">Repositórios</h3>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Nome</th>
+                <th scope="col">Linguagem</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Última atualização</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let repo of reposData">
+                <td>
+                  <a class="btn btn-info text-white" [href]="repo.html_url" target="_blank">
+                    <i class="fas fa-link"></i>
+                  </a>
+                </td>
+                <td>
+                  <h4 class="m-0">{{repo.name}}</h4>
+                </td>
+                <td>
+                  <h4 class="m-0">{{repo.language !== null ? repo.language : 'Não identificada'}}</h4>
+                </td>
+                <td>
+                  <h4 class="m-0">{{repo.description !== null ? repo.description : 'Sem descrição'}}</h4>
+                </td>
+                <td>
+                  <h4 class="m-0">{{repo.updated_at | date:'dd/MM/yyyy'}}</h4>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

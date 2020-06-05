@@ -30,5 +30,4 @@ export class LoginComponent {
       this.toastr.error('Preencha os campos corretamente');
     }
   }
-
 }

@@ -188,11 +188,7 @@ export class DashboardComponent implements OnInit {
       const newValue = list[0].balance;
       const lastValue = list[1].balance;
 
-      console.log(newValue, lastValue);
-
       const percentageData = this.getPercentage(newValue, lastValue);
-
-      console.log(percentageData);
 
       this.moneyPercent = percentageData.percentage;
       this.moneyNegative = percentageData.negative;
@@ -225,8 +221,6 @@ export class DashboardComponent implements OnInit {
     if (list.length > 1) {
       const newValue = list[0].balance;
       const lastValue = list[1].balance;
-
-      console.log(newValue, lastValue);
 
       const percentageData = this.getPercentage(newValue, lastValue);
 

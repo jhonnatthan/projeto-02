@@ -39,7 +39,7 @@
               </div>
 
               <div class="col-12">
-                <button class="btn btn-info">Comprar ({{moneyToBtc()}} BTC)</button>
+                <button class="btn btn-info" (click)="handleBuy()">Comprar ({{moneyToBtc()}} BTC)</button>
               </div>
             </div>
           </form>
@@ -70,7 +70,7 @@
               </div>
 
               <div class="col-12">
-                <button class="btn btn-info">Vender ({{btcToMoney() | currency: 'BRL'}})</button>
+                <button class="btn btn-info" (click)="handleSell()">Vender ({{btcToMoney() | currency: 'BRL'}})</button>
               </div>
             </div>
           </form>
