@@ -169,6 +169,7 @@ export class AuthService {
 
   public saveUsers() {
     this.storageService.set('@app:users', this.users);
+    this.storageService.set('@app:activedUser', this.user);
   }
 
   public logout() {

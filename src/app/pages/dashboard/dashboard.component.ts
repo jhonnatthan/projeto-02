@@ -35,14 +35,14 @@ export class DashboardComponent implements OnInit {
     private bitcoinService: BitcoinService,
     private authService: AuthService,
     private toastr: ToastrService
-  ) {}
-
-  ngOnInit() {
+  ) {
     this.updateCurrency();
     setInterval(() => {
       this.updateCurrency();
     }, 60000);
+  }
 
+  ngOnInit() {
     parseOptions(Chart, chartOptions());
 
     this.generateMoneyBalanceChart();
@@ -82,7 +82,7 @@ export class DashboardComponent implements OnInit {
   }
 
   public generateCurrencyChart = (updateList) => {
-    const list = [...updateList].slice(0, 7).reverse();
+    const list = [...updateList].slice(0, 10).reverse();
 
     const dataArr = list.map((item) => item.BRL);
     const labelArr = list.map((item) => formatDateToHours(item.timestamp));
@@ -104,7 +104,7 @@ export class DashboardComponent implements OnInit {
   };
 
   public generateCurrencyPercentage(updateList) {
-    const list = [...updateList].slice(0, 7).reverse();
+    const list = [...updateList].slice(0, 10).reverse();
 
     if (list.length > 1) {
       const newPrice = list[0].BRL;

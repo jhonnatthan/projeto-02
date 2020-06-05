@@ -1,7 +1,7 @@
 import { ToastrService } from 'ngx-toastr';
 import { BitcoinService } from 'src/app/services/bitcoin/bitcoin.service';
 import { AuthService } from './../../services/auth/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-shop',
@@ -18,15 +18,7 @@ export class ShopComponent implements OnInit {
     private toastr: ToastrService
   ) {}
 
-  ngOnInit(): void {
-    this.updateCurrency();
-  }
-
-  public updateCurrency() {
-    this.bitcoinService.update(() => {
-      this.toastr.success('Cotação atualizada!');
-    });
-  }
+  ngOnInit(): void {}
 
   public moneyToBtc() {
     let bitcoinValue = 0;
@@ -62,10 +54,14 @@ export class ShopComponent implements OnInit {
       if (this.money !== null) {
         inputValue = parseFloat(this.money);
         if (inputValue >= 100) {
-          if (this.authService.buyBtc(inputValue)) {
-            this.toastr.success('Compra de bitcoin realizada com sucesso!');
+          if (inputValue <= this.authService.user.moneyBalance) {
+            if (this.authService.buyBtc(inputValue)) {
+              this.toastr.success('Compra de bitcoin realizada com sucesso!');
+            } else {
+              this.toastr.error('Falha ao comprar BTC');
+            }
           } else {
-            this.toastr.error('Falha ao comprar BTC');
+            this.toastr.error('Falha ao vender BTC, saldo insuficiente');
           }
         } else {
           this.toastr.error('Valor abaixo de R$ 100,00');
@@ -83,10 +79,15 @@ export class ShopComponent implements OnInit {
     if (this.bitcoinService.currentPrice) {
       if (this.btc !== null) {
         inputValue = parseFloat(this.btc);
-        if (this.authService.sellBtc(inputValue)) {
-          this.toastr.success('Venda de bitcoin realizada com sucesso!');
+
+        if (inputValue <= this.authService.user.bitcoinBalance) {
+          if (this.authService.sellBtc(inputValue)) {
+            this.toastr.success('Venda de bitcoin realizada com sucesso!');
+          } else {
+            this.toastr.error('Falha ao vender BTC, saldo insuficiente');
+          }
         } else {
-          this.toastr.error('Falha ao comprar BTC');
+          this.toastr.error('Campo vazio');
         }
       } else {
         this.toastr.error('Campo vazio');

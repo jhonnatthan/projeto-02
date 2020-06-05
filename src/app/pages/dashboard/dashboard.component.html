@@ -22,7 +22,7 @@
               <p class="mt-3 mb-0 text-muted text-sm">
                 <span [ngClass]="{'text-danger': currencyNegative,'text-success': !currencyNegative, 'mr-2':true}">
                   <i [ngClass]="{ 'fas': true, 'fa-arrow-down': currencyNegative,'fa-arrow-up': !currencyNegative}"></i>
-                  {{currencyPercent | percent}}
+                  {{currencyPercent | number:'1.2-5'}} %
                 </span>
                 <span class="text-nowrap">Que a última cotação</span>
               </p>
@@ -47,7 +47,7 @@
               <p class="mt-3 mb-0 text-muted text-sm">
                 <span [ngClass]="{'text-danger': currencyNegative,'text-success': !currencyNegative, 'mr-2':true}">
                   <i [ngClass]="{ 'fas': true, 'fa-arrow-down': currencyNegative,'fa-arrow-up': !currencyNegative}"></i>
-                  {{currencyPercent | percent}}
+                  {{currencyPercent | number:'1.2-5'}} %
                 </span>
                 <span class="text-nowrap">Que a última cotação</span>
               </p>
@@ -71,7 +71,7 @@
               <p class="mt-3 mb-0 text-muted text-sm">
                 <span [ngClass]="{'text-danger': btcNegative,'text-success': !btcNegative, 'mr-2':true}">
                   <i [ngClass]="{ 'fas': true, 'fa-arrow-down': btcNegative,'fa-arrow-up': !btcNegative}"></i>
-                  {{btcPercent | percent}}</span>
+                  {{btcPercent | number:'1.2-2'}} %</span>
                 <span class="text-nowrap">Desde a última compra / venda</span>
               </p>
             </div>
@@ -94,7 +94,7 @@
               <p class="mt-3 mb-0 text-muted text-sm">
                 <span [ngClass]="{'text-danger': moneyNegative,'text-success': !moneyNegative, 'mr-2':true}">
                   <i [ngClass]="{ 'fas': true, 'fa-arrow-down': moneyNegative,'fa-arrow-up': !moneyNegative}"></i>
-                  {{moneyPercent | percent}}</span>
+                  {{moneyPercent | number:'1.2-2'}} %</span>
                 <span class="text-nowrap">Desde a última compra / venda</span>
               </p>
             </div>
