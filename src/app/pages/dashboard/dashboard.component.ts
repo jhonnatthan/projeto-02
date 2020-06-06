@@ -34,16 +34,17 @@ export class DashboardComponent implements OnInit {
   constructor(
     private bitcoinService: BitcoinService,
     private authService: AuthService,
-    private toastr: ToastrService
-  ) {
-    this.updateCurrency();
-    setInterval(() => {
-      this.updateCurrency();
-    }, 60000);
-  }
+  ) {}
 
   ngOnInit() {
     parseOptions(Chart, chartOptions());
+
+    this.generateInfos();
+  }
+
+  public generateInfos() {
+    this.generateCurrencyChart();
+    this.generateCurrencyPercentage();
 
     this.generateMoneyBalanceChart();
     this.generateMoneyHistoryChart();
@@ -54,14 +55,14 @@ export class DashboardComponent implements OnInit {
     this.generateBtcPercentage();
   }
 
-  public updateCurrency() {
-    this.bitcoinService.update(({ updateList }) => {
-      this.generateCurrencyChart(updateList);
-      this.generateCurrencyPercentage(updateList);
+  public updateInfos() {
+    this.generateCurrencyPercentage();
+    this.generateMoneyPercentage();
+    this.generateBtcPercentage();
 
-      this.toastr.success('Cotação atualizada!');
-    });
+
   }
+
 
   public getPercentage(a, b) {
     const data = {
@@ -81,13 +82,13 @@ export class DashboardComponent implements OnInit {
     return data;
   }
 
-  public generateCurrencyChart = (updateList) => {
-    const list = [...updateList].slice(0, 10).reverse();
+  public generateCurrencyChart() {
+    const list = [...this.bitcoinService.updateList].slice(0, 10).reverse();
 
     const dataArr = list.map((item) => item.BRL);
     const labelArr = list.map((item) => formatDateToHours(item.timestamp));
 
-    const chart = document.getElementById('chart-sales');
+    const currencyChart = document.getElementById('chart-sales');
 
     const { data, options } = generateChart(
       'Preço bitcoin',
@@ -96,15 +97,15 @@ export class DashboardComponent implements OnInit {
       true
     );
 
-    this.currencyChart = new Chart(chart, {
+    this.currencyChart = new Chart(currencyChart, {
       type: 'line',
       options,
       data,
     });
-  };
+  }
 
-  public generateCurrencyPercentage(updateList) {
-    const list = [...updateList].slice(0, 10).reverse();
+  public generateCurrencyPercentage() {
+    const list = [...this.bitcoinService.updateList].slice(0, 10).reverse();
 
     if (list.length > 1) {
       const newPrice = list[0].BRL;
@@ -126,7 +127,7 @@ export class DashboardComponent implements OnInit {
     const dataArr = list.map((item) => item.balance);
     const labelArr = list.map((item) => item.description);
 
-    const chart = document.getElementById('money-balance-chart');
+    const moneyChart = document.getElementById('money-balance-chart');
 
     const { data, options } = generateChart(
       'Balanço BRL',
@@ -135,7 +136,7 @@ export class DashboardComponent implements OnInit {
       true
     );
 
-    this.moneyChart = new Chart(chart, {
+    this.moneyChart = new Chart(moneyChart, {
       type: 'line',
       options,
       data,
